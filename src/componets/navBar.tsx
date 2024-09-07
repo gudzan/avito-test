@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 export default function NavBar() {
     return (
         <>
-            <div className="container">
-                <h1 className="mb-3">Личный кабинет</h1>
+            <div className="container mt-4">
+                <h1 className="mb-4">Личный кабинет</h1>
                 <ul className="nav nav-tabs">
                     <NavLink
                         to="/advertisements"
