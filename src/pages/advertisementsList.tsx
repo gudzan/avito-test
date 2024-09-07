@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import type { Advertisment } from "../types/types.ts";
 import Spinner from "../componets/spinner.tsx";
 import { useNavigate } from "react-router-dom";
@@ -10,32 +10,53 @@ import {
     setPageSize,
 } from "../redux/paginationSlice.ts";
 import { useAppDispath, useAppSelector } from "../redux/store.ts";
+import _ from "lodash";
 
 export default function AdvertisementsList() {
     const dispatch = useAppDispath();
     const [advertisments, setAdvertisments] = useState<Advertisment[]>([]);
     const [isLoading, setLoading] = useState(true);
-    const { pageSize, currentPage, count }: PaginationStore = useAppSelector((state) => state.paginationAdvertisements);
+    const { pageSize, currentPage, count }: PaginationStore = useAppSelector(
+        (state) => state.paginationAdvertisements
+    );
+    const [searchData, setSearchData] = useState("");
     let navigate = useNavigate();
+    let debounced = _.debounce(getData);
 
-    async function getData() {
-        const url = `http://localhost:3000/advertisements/?_page=${currentPage}&_per_page=${pageSize}`;
+    async function getData(str = "") {
+        console.log(`currentPage : ${currentPage} \n pageSize : ${pageSize}`);
+        
+        const url = `http://localhost:3000/advertisements/?_start=${
+            (currentPage - 1) * pageSize
+        }&_limit=${pageSize}&name_like=${str}`;
+        console.log(`advertisements/?_start=${
+            (currentPage - 1) * pageSize
+        }&_limit=${pageSize}&name_like=${str}`);
+        
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
             const json = await response.json();
-            setAdvertisments(json.data);
+            const newCount = Number(response.headers.get("X-Total-Count"));
+            setAdvertisments(json);
             setLoading(false);
-            dispatch(setCount({ count: json.items }));
+            dispatch(setCount({ count: newCount }));
         } catch (error) {
             if (error instanceof Error) console.error(error.message);
         }
     }
 
     useEffect(() => {
-        getData();
+        let timeoutId = setTimeout(() => debounced(searchData), 250);
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [searchData]);
+
+    useEffect(() => {
+        getData(searchData);
     }, [pageSize, currentPage]);
 
     const columns = [
@@ -53,8 +74,8 @@ export default function AdvertisementsList() {
     function handleChangeSelect(event: React.ChangeEvent<HTMLSelectElement>) {
         const dataChange = event.target;
         const newPageSize = +dataChange.value;
-        dispatch(setPageSize({ pageSize: newPageSize }));
         dispatch(setCurrentPage({ currentPage: 1 }));
+        dispatch(setPageSize({ pageSize: newPageSize }));
     }
 
     const handleCurrentPage = (pageNumber: number) => {
@@ -71,11 +92,23 @@ export default function AdvertisementsList() {
         dispatch(setCurrentPage({ currentPage: previousPage }));
     };
 
+    function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+        setSearchData(event.target.value);
+        dispatch(setCurrentPage({ currentPage: 1 }));
+    }
+
     if (isLoading) {
         return <Spinner />;
     } else {
         return (
             <div className="container mt-3 mb-5">
+                <input
+                    className=" form-control mb-3"
+                    placeholder="Поиск по названию..."
+                    type="text"
+                    value={searchData}
+                    onChange={handleSearch}
+                />
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -123,10 +156,18 @@ export default function AdvertisementsList() {
                         className="form-select"
                         onChange={handleChangeSelect}
                     >
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option selected value="10">10</option>
-                        <option value="20">20</option>
+                        <option selected={pageSize === 3} value="3">
+                            3
+                        </option>
+                        <option selected={pageSize === 5} value="5">
+                            5
+                        </option>
+                        <option selected={pageSize === 10} value="10">
+                            10
+                        </option>
+                        <option selected={pageSize === 20} value="20">
+                            20
+                        </option>
                     </select>
                 </div>
             </div>
