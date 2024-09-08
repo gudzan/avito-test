@@ -24,8 +24,6 @@ export default function AdvertisementsList() {
     let debounced = _.debounce(getData);
 
     async function getData(str = "") {
-        console.log(`currentPage : ${currentPage} \n pageSize : ${pageSize}`);
-        
         const url = `http://localhost:3000/advertisements/?_start=${
             (currentPage - 1) * pageSize
         }&_limit=${pageSize}&name_like=${str}`;

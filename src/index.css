@@ -44,6 +44,29 @@ ul {
     margin-bottom: 0;
 }
 
-tr:hover{
+tr:hover {
     cursor: pointer;
+}
+
+.btn-box {
+    width: auto;
+}
+
+form {
+    width: 75%;
+}
+
+input {
+    max-height: 37.6px;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+textarea {
+    max-height: 150px;
 }
