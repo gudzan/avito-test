@@ -10,6 +10,8 @@ import {
     setPageSize,
 } from "../redux/paginationSlice.ts";
 import { useAppDispath, useAppSelector } from "../redux/store.ts";
+import ModalAdvertisementNew from "../componets/modalAdvertisementNew.tsx";
+import defaultImage from "../images/default-image.jpg";
 import _ from "lodash";
 
 export default function AdvertisementsList() {
@@ -20,17 +22,20 @@ export default function AdvertisementsList() {
         (state) => state.paginationAdvertisements
     );
     const [searchData, setSearchData] = useState("");
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     let navigate = useNavigate();
     let debounced = _.debounce(getData);
 
-    async function getData(str = "") {
+    async function getData(str: string) {
         const url = `http://localhost:3000/advertisements/?_start=${
             (currentPage - 1) * pageSize
         }&_limit=${pageSize}&name_like=${str}`;
-        console.log(`advertisements/?_start=${
-            (currentPage - 1) * pageSize
-        }&_limit=${pageSize}&name_like=${str}`);
-        
+        console.log(
+            `advertisements/?_start=${
+                (currentPage - 1) * pageSize
+            }&_limit=${pageSize}&name_like=${str}`
+        );
+
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -55,7 +60,7 @@ export default function AdvertisementsList() {
 
     useEffect(() => {
         getData(searchData);
-    }, [pageSize, currentPage]);
+    }, [pageSize, currentPage, modalIsOpen]);
 
     const columns = [
         "Фотография",
@@ -95,18 +100,46 @@ export default function AdvertisementsList() {
         dispatch(setCurrentPage({ currentPage: 1 }));
     }
 
+    function onClose() {
+        setModalIsOpen(false);
+    }
+
+    function onSubmit() {
+        setModalIsOpen(false);
+        dispatch(setCurrentPage({ currentPage: 1 }));
+    }
+
+    function onOpen() {
+        setModalIsOpen(true);
+    }
+
     if (isLoading) {
-        return <Spinner />;
+        return (
+            <div className="container mt-3 mb-5">
+                <Spinner />
+            </div>
+        );
     } else {
         return (
             <div className="container mt-3 mb-5">
-                <input
-                    className=" form-control mb-3"
-                    placeholder="Поиск по названию..."
-                    type="text"
-                    value={searchData}
-                    onChange={handleSearch}
-                />
+                <div className="d-flex justify-content-between gap-10 mb-3">
+                    <input
+                        className=" form-control"
+                        placeholder="Поиск по названию..."
+                        type="text"
+                        value={searchData}
+                        onChange={handleSearch}
+                    />
+                    <button
+                        type="button"
+                        className="btn btn-primary d-flex justify-content-between"
+                        data-toggle="modal"
+                        onClick={onOpen}
+                    >
+                        <i className="bi bi-plus-lg pe-1"></i>
+                        Добавить
+                    </button>
+                </div>
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -125,7 +158,7 @@ export default function AdvertisementsList() {
                             >
                                 <td>
                                     <img
-                                        src={element.imageUrl}
+                                        src={element.imageUrl ? element.imageUrl : defaultImage}
                                         className="img-fluid"
                                     />
                                 </td>
@@ -168,6 +201,14 @@ export default function AdvertisementsList() {
                         </option>
                     </select>
                 </div>
+
+                {modalIsOpen && (
+                    <ModalAdvertisementNew
+                        isOpen={modalIsOpen}
+                        onClose={onClose}
+                        onSubmit={onSubmit}
+                    />
+                )}
             </div>
         );
     }

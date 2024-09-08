@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Advertisment } from "../types/types";
 import Spinner from "../componets/spinner";
 import ModalAdvertisementEdit from "../componets/modalAdvertisementEdit";
+import defaultImage from "../images/default-image.jpg";
 
 export default function AdvertisementPage() {
     const advertisementId = useParams().id;
@@ -42,7 +43,11 @@ export default function AdvertisementPage() {
     }
 
     if (isLoading) {
-        return <Spinner />;
+        return (
+            <div className="container mt-3 mb-5">
+                <Spinner />
+            </div>
+        );
     } else if (advertisment !== undefined) {
         return (
             <div className="container mt-3">
@@ -68,7 +73,11 @@ export default function AdvertisementPage() {
                         </div>
                         <div className="col-md-3">
                             <img
-                                src={advertisment.imageUrl}
+                                src={
+                                    advertisment.imageUrl
+                                        ? advertisment.imageUrl
+                                        : defaultImage
+                                }
                                 className="img-card"
                             />
                         </div>
@@ -79,14 +88,23 @@ export default function AdvertisementPage() {
                                 </h5>
                                 <div className="card-text">
                                     <b>Описание товара: </b>
-                                    {advertisment.description}
+                                    <p
+                                        className={`card-text ${
+                                            advertisment.description
+                                                ? ""
+                                                : "text-secondary"
+                                        }`}
+                                    >
+                                        {advertisment.description
+                                            ? advertisment.description
+                                            : "(нет описания)"}
+                                    </p>
                                 </div>
                                 <div className="card-text">
                                     <b>Цена: </b>
                                     {advertisment.price.toLocaleString(
                                         "ru"
-                                    )}{" "}
-                                    руб.
+                                    )} руб.
                                 </div>
                                 <div className="card-text">
                                     <b>Просмотры: </b>
@@ -100,11 +118,13 @@ export default function AdvertisementPage() {
                         </div>
                     </div>
                 </div>
-                <ModalAdvertisementEdit
-                    advertisment={advertisment}
-                    isOpen={modalIsOpen}
-                    onClose={onClose}
-                />
+                {modalIsOpen && (
+                    <ModalAdvertisementEdit
+                        advertisment={advertisment}
+                        isOpen={modalIsOpen}
+                        onClose={onClose}
+                    />
+                )}
             </div>
         );
     }

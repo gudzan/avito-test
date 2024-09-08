@@ -1,6 +1,6 @@
 export default function Spinner() {
     return (
-        <div className="spinner-border container mt-5" role="status">
+        <div className="spinner-border" role="status">
             <span className="visually-hidden">Загрузка...</span>
         </div>
     );
