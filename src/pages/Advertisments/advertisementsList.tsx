@@ -13,6 +13,7 @@ import { useAppDispath, useAppSelector } from "../../redux/store.ts";
 import ModalAdvertisementNew from "../../componets/modalAdvertisementNew.tsx";
 import defaultImage from "../../assets/images/default-image.jpg";
 import _ from "lodash";
+import "./advertisments.css";
 
 export default function AdvertisementsList() {
     const dispatch = useAppDispath();
@@ -121,10 +122,10 @@ export default function AdvertisementsList() {
         );
     } else {
         return (
-            <div className="container mt-3 mb-5">
+            <div className="container p-4 mb-5 box-shadow rounded-top rounded-3">
                 <div className="d-flex justify-content-between gap-10 mb-3">
                     <input
-                        className=" form-control"
+                        className="form-control"
                         placeholder="Поиск по названию..."
                         type="text"
                         value={searchData}
@@ -153,12 +154,17 @@ export default function AdvertisementsList() {
                     <tbody>
                         {advertisments.map((element) => (
                             <tr
+                                className="tr-hover"
                                 key={element.id}
                                 onClick={() => handleClick(element.id)}
                             >
                                 <td>
                                     <img
-                                        src={element.imageUrl ? element.imageUrl : defaultImage}
+                                        src={
+                                            element.imageUrl
+                                                ? element.imageUrl
+                                                : defaultImage
+                                        }
                                         className="img-fluid"
                                     />
                                 </td>

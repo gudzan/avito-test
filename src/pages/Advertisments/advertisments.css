@@ -1,0 +1,13 @@
+.tr-hover:hover {
+    cursor: pointer;
+}
+
+.advertismentPage-card img {
+    max-width: 300px;
+    height: fit-content;
+    max-height: 400px;
+}
+
+.advertismentPage-card {
+    border: none;
+}

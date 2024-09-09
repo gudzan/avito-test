@@ -6,10 +6,10 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-y: scroll;
+   background-color: #F9F9F9;
 }
 
 td {
-    min-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -18,12 +18,6 @@ td {
 
 .img-fluid {
     max-height: 100px !important;
-}
-
-.advertismentPage-card img {
-    max-width: 300px;
-    height: fit-content;
-    max-height: 400px;
 }
 
 .gap-10 {
@@ -42,10 +36,6 @@ td {
 ul {
     margin-top: 0;
     margin-bottom: 0;
-}
-
-tr:hover {
-    cursor: pointer;
 }
 
 .btn-box {
@@ -74,3 +64,8 @@ textarea {
 .card-text{
     display: inline;
 }
+.box-shadow{
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+

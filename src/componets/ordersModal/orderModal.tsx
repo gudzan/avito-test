@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Order } from "../../types/types";
-import { CustomModal } from "../customModal/customModal";
+import { CustomModal } from "../CustomModal/customModal";
 import "./orderModal.css";
 
 type ModalProps = {

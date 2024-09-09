@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Order, OrderStatus } from "../../types/types";
-import OrderModal from "../../componets/ordersModal/orderModal";
+import OrderModal from "../../componets/OrdersModal/orderModal";
 import moment from "moment";
 import StatusFilter from "../../componets/statusFilter";
-import { log } from "console";
 
 export default function Orders() {
     const columns = [
@@ -93,8 +92,8 @@ export default function Orders() {
         );
 
     return (
-        <div className="container mt-3 mb-5">
-            <div className="d-flex gap-10">
+        <div className="container p-4 mb-5 box-shadow rounded-top rounded-3">
+            <div className="d-flex gap-10 mb-3">
                 <StatusFilter
                     onSelectItem={handleSelectStatus}
                     selectedItem={selectStatus}

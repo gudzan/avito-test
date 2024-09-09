@@ -4,6 +4,7 @@ import { Advertisment } from "../../types/types";
 import Spinner from "../../componets/spinner";
 import ModalAdvertisementEdit from "../../componets/modalAdvertisementEdit";
 import defaultImage from "../../assets/images/default-image.jpg";
+import "./advertisments.css";
 
 export default function AdvertisementPage() {
     const advertisementId = useParams().id;
@@ -50,27 +51,25 @@ export default function AdvertisementPage() {
         );
     } else if (advertisment !== undefined) {
         return (
-            <div className="container mt-3">
-                <div className="d-flex justify-content-start">
+            <div className="container p-4 mb-5 box-shadow rounded-top rounded-3">
+                <div className="d-flex justify-content-start gap-10 mb-3">
                     <button
-                        className="btn btn-outline-secondary mb-3"
+                        className="btn btn-outline-secondary"
                         onClick={() => navigate(-1)}
                     >
                         <i className="bi bi-arrow-left"></i> Назад
                     </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        data-toggle="modal"
+                        onClick={onOpen}
+                    >
+                        <i className="bi bi-pencil pe-1"></i> Изменить
+                    </button>
                 </div>
                 <div className="card p-3 advertismentPage-card">
-                    <div className="row position-relative">
-                        <div className="position-absolute top-0 end-0 btn-box">
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                data-toggle="modal"
-                                onClick={onOpen}
-                            >
-                                <i className="bi bi-pencil pe-1"></i> Изменить
-                            </button>
-                        </div>
+                    <div className="row">
                         <div className="col-md-3">
                             <img
                                 src={
@@ -104,7 +103,8 @@ export default function AdvertisementPage() {
                                     <b>Цена: </b>
                                     {advertisment.price.toLocaleString(
                                         "ru"
-                                    )} руб.
+                                    )}{" "}
+                                    руб.
                                 </div>
                                 <div className="card-text">
                                     <b>Просмотры: </b>

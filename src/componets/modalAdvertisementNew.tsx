@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { Advertisment } from "../types/types";
-import { CustomModal } from "./customModal/customModal";
-import TextField from "./form/textField";
-import TextAreaField from "./form/textAreaField";
+import { CustomModal } from "./CustomModal/customModal";
+import TextField from "./Form/textField";
+import TextAreaField from "./Form/textAreaField";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
