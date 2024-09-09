@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Advertisment } from "../types/types";
-import Spinner from "../componets/spinner";
-import ModalAdvertisementEdit from "../componets/modalAdvertisementEdit";
-import defaultImage from "../images/default-image.jpg";
+import { Advertisment } from "../../types/types";
+import Spinner from "../../componets/spinner";
+import ModalAdvertisementEdit from "../../componets/modalAdvertisementEdit";
+import defaultImage from "../../assets/images/default-image.jpg";
 
 export default function AdvertisementPage() {
     const advertisementId = useParams().id;

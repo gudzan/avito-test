@@ -1,17 +1,17 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import type { Advertisment } from "../types/types.ts";
-import Spinner from "../componets/spinner.tsx";
+import type { Advertisment } from "../../types/types.ts";
+import Spinner from "../../componets/spinner.tsx";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../componets/pagination.tsx";
+import Pagination from "../../componets/pagination.tsx";
 import {
     PaginationStore,
     setCount,
     setCurrentPage,
     setPageSize,
-} from "../redux/paginationSlice.ts";
-import { useAppDispath, useAppSelector } from "../redux/store.ts";
-import ModalAdvertisementNew from "../componets/modalAdvertisementNew.tsx";
-import defaultImage from "../images/default-image.jpg";
+} from "../../redux/paginationSlice.ts";
+import { useAppDispath, useAppSelector } from "../../redux/store.ts";
+import ModalAdvertisementNew from "../../componets/modalAdvertisementNew.tsx";
+import defaultImage from "../../assets/images/default-image.jpg";
 import _ from "lodash";
 
 export default function AdvertisementsList() {

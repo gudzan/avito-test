@@ -18,7 +18,7 @@ export type Advertisment = {
 }
 
 
-const OrderStatus = {
+export const OrderStatus = {
     Created: 0,
     Paid: 1,
     Transport: 2,
@@ -29,9 +29,9 @@ const OrderStatus = {
 } as const;
 
 
-type OrderItem = Advertisment & { count: number; };
+export type OrderItem = Advertisment & { count: number; };
 
-type Order = {
+export type Order = {
     /* Уникальный идентификатор. */
     id: string;
     /* Статус. */

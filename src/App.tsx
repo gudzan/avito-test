@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import AdvertisementsList from "./pages/advertisementsList";
-import AdvertisementPage from "./pages/advertisementPage";
-import Orders from "./pages/orders";
+import AdvertisementsList from "./pages/Advertisments/advertisementsList";
+import AdvertisementPage from "./pages/Advertisments/advertisementPage";
+import Orders from "./pages/Orders/ordersList";
 import NavBar from "./componets/navBar";
 import "./App.css";
 

@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import "./CustomModal.css";
+import "./customModal.css";
 
 type CustomModalProps = {
     isOpen: boolean;

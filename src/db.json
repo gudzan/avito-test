@@ -141,6 +141,26 @@
           "count": 5
         }
       ]
+    },
+    {
+      "id": "3",
+      "status": 1,
+      "createdAt": "2024-08-12T20:20:55.351Z",
+      "finishedAt": "2024-08-12T20:25:55.351Z",
+      "total": 2000,
+      "deliveryWay": "sdek",
+      "items": [
+        {
+          "id": "1",
+          "name": "Стул старинный",
+          "description": "Очень красивый",
+          "price": 2000,
+          "createdAt": "2022-08-12T20:16:55.351Z",
+          "views": 20,
+          "likes": 2,
+          "count": 1
+        }
+      ]
     }
   ]
 }
