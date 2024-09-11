@@ -1,50 +1,25 @@
-# React + TypeScript + Vite
+# avito-test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## О проекте
 
-Currently, two official plugins are available:
+Фейковый личный кабинет продавца на маркетплейсе, в котором есть возможность управлять своими объявлениями и заказами.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Запуск приложения
 
-## Expanding the ESLint configuration
+Вариант 1
+- Клонируем репозиторий командой git clone <ссылка_на_проект>
+- Заходим в директорию с docker-compose.yml файлом и прожимаем команду docker-compose up -d
+- В докере соберутся образы, запустятся сервер и само приложение, и можно заходить на  http://localhost:5173/
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Вариант 2
+- Клонируем репозиторий командой git clone <ссылка_на_проект>
+- Устанавливаем зависимости при помощи команды npm i
+- Зайтите в папку .../src и запустите json-server командой npx json-server db.json
+- В отдельном терминале апустите приложение командой npm run dev, сайт откроется по ссылке http://localhost:5173/
 
-- Configure the top-level `parserOptions` property like this:
+## Дополнительно
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+При разработке столкнулась с некоторыми проблемами:
+- json-server в последней версии не имеет возможности поиска типа like. Поэтому, чтобы реализовать строку поиска я воспользовалась более старой версией.
+- В исходных данных был type Image, который не использовался нигде, даже в type Advertisment. Менять контракт не стала, оставила как есть, а тип Image закомментировала, чтобы докер при сборке не ругался
+- Сроки сдачи немного неудачно попали на мои непредвиденные обстоятельства, из-за чего большая часть кода написана на верхней полке плацкарта. Мне очень жаль, что я не успела сделать больше. А я уверенна, что могла сделать намного круче. Но я рада, что смогла сделать, как сделала.
