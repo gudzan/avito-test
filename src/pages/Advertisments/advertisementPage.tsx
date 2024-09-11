@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Advertisment } from "../../types/types";
 import Spinner from "../../componets/spinner";
-import ModalAdvertisementEdit from "../../componets/modalAdvertisementEdit";
+import ModalAdvertisementEdit from "../../componets/AdvertisementModal/modalAdvertisementEdit";
 import defaultImage from "../../assets/images/default-image.jpg";
 import "./advertisments.css";
 
@@ -15,17 +15,13 @@ export default function AdvertisementPage() {
 
     async function getData() {
         const url = `http://localhost:3000/advertisements/${advertisementId}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const json = await response.json();
-            setAdvertisment(json);
-            setLoading(false);
-        } catch (error) {
-            if (error instanceof Error) console.error(error.message);
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
         }
+        const json = await response.json();
+        setAdvertisment(json);
+        setLoading(false);
     }
 
     useEffect(() => {

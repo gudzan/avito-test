@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import "./form.css"
 
 type TextAreaFieldProps = {
     label: string;

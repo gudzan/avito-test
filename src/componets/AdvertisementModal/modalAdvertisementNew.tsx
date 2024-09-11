@@ -1,51 +1,49 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { Advertisment } from "../types/types";
-import { CustomModal } from "./CustomModal/customModal";
-import TextField from "./Form/textField";
-import TextAreaField from "./Form/textAreaField";
+import { ChangeEvent, useState } from "react";
+import { Advertisment } from "../../types/types";
+import { CustomModal } from "../CustomModal/customModal";
+import TextField from "../Form/textField";
+import TextAreaField from "../Form/textAreaField";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 
 type ModalProps = {
-    advertisment: Advertisment;
     isOpen: boolean;
     onClose: Function;
+    onSubmit: Function;
 };
 
-export default function ModalAdvertisementEdit({
-    advertisment,
+export default function ModalAdvertisementNew({
     isOpen,
     onClose,
+    onSubmit,
 }: ModalProps) {
-    const [editAdvertisment, setEditAdvertisment] =
-        useState<Advertisment>(advertisment);
-    const [isChanged, setIsChanged] = useState(false);
+    const now = moment().toJSON();
 
-    useEffect(() => {
-        if (JSON.stringify(editAdvertisment) !== JSON.stringify(advertisment)) {
-            setIsChanged(true);
-        } else {
-            setIsChanged(false);
-        }
-    }, [editAdvertisment]);
+    const newAdvertisment: Advertisment = {
+        id: uuidv4(),
+        name: "",
+        price: 0,
+        createdAt: now,
+        views: 0,
+        likes: 0,
+    };
 
-    async function editData() {
-        const url = `http://localhost:3000/advertisements/${advertisment.id}`;
+    const [advertisment, setAdvertisment] =
+        useState<Advertisment>(newAdvertisment);
+
+    async function newData() {
+        const url = `http://localhost:3000/advertisements`;
         const requestOptions = {
-            method: "PUT",
+            method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editAdvertisment),
+            body: JSON.stringify(advertisment),
         };
-        try {
-            const response = await fetch(url, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const json = await response.json();
-            console.log("изменено");
-
-            setEditAdvertisment(json);
-        } catch (error) {
-            if (error instanceof Error) console.error(error.message);
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
         }
+        const json = await response.json();
+        setAdvertisment(json);
     }
 
     function handleChange(
@@ -57,7 +55,7 @@ export default function ModalAdvertisementEdit({
             event.target.value === ""
                 ? event.target.value
                 : +event.target.value;
-        setEditAdvertisment((prevState) => ({
+        setAdvertisment((prevState) => ({
             ...prevState,
             [event.target.name]: value,
         }));
@@ -65,16 +63,14 @@ export default function ModalAdvertisementEdit({
 
     function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (editAdvertisment !== advertisment) {
-            editData();
-        }
-        onClose(editAdvertisment);
+        newData();
+        onSubmit(advertisment);
     }
 
     return (
         <CustomModal isOpen={isOpen} onClose={onClose}>
             <>
-                <h3 className="mb-2">Редактирование товара</h3>
+                <h3 className="mb-2">Создание нового товара</h3>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <TextField
@@ -82,7 +78,7 @@ export default function ModalAdvertisementEdit({
                             label="Название"
                             name="name"
                             type="text"
-                            value={editAdvertisment.name}
+                            value={advertisment.name}
                             onChange={handleChange}
                         />
                     </div>
@@ -92,7 +88,11 @@ export default function ModalAdvertisementEdit({
                             label="Цена, руб."
                             name="price"
                             type="number"
-                            value={editAdvertisment.price}
+                            value={
+                                advertisment.price !== 0
+                                    ? advertisment.price
+                                    : ""
+                            }
                             onChange={handleChange}
                         />
                     </div>
@@ -102,7 +102,7 @@ export default function ModalAdvertisementEdit({
                             label="Ссылка на изображение"
                             name="imageUrl"
                             type="text"
-                            value={editAdvertisment.imageUrl}
+                            value={advertisment.imageUrl}
                             onChange={handleChange}
                         />
                     </div>
@@ -111,16 +111,12 @@ export default function ModalAdvertisementEdit({
                             required={false}
                             label="Описание"
                             name="description"
-                            value={editAdvertisment.description}
+                            value={advertisment.description}
                             onChange={handleChange}
                         />
                     </div>
                     <div className="d-flex justify-content-between gap-10">
-                        <button
-                            className="w-100 btn btn-primary"
-                            type="submit"
-                            disabled={!isChanged}
-                        >
+                        <button className="w-100 btn btn-primary" type="submit">
                             Отправить
                         </button>
                         <button

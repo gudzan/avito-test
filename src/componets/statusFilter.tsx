@@ -7,8 +7,6 @@ type FilterProps = {
 
 const StatusFilter = ({ onSelectItem, selectedItem }: FilterProps) => {
     const items = Object.entries(OrderStatus);
-    console.log(selectedItem);
-    
     const getClassForActiveItem = (item: any[]) => {
         return selectedItem[1] === item[1] ? " active" : "";
     };

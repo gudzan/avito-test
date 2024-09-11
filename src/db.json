@@ -77,6 +77,15 @@
       "views": 200000,
       "likes": 302,
       "imageUrl": "https://opis-cdn.tinkoffjournal.ru/mercury/faq-iphone-15-01.dhn2x8v1gs00..jpg"
+    },
+    {
+      "id": "d06e3eea-2085-41ca-89c2-775cbc2e930c",
+      "name": "ttt",
+      "price": 66,
+      "createdAt": "2024-09-09T18:01:18.663Z",
+      "views": 0,
+      "likes": 0,
+      "imageUrl": ""
     }
   ],
   "orders": [

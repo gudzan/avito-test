@@ -10,7 +10,7 @@ import {
     setPageSize,
 } from "../../redux/paginationSlice.ts";
 import { useAppDispath, useAppSelector } from "../../redux/store.ts";
-import ModalAdvertisementNew from "../../componets/modalAdvertisementNew.tsx";
+import ModalAdvertisementNew from "../../componets/AdvertisementModal/modalAdvertisementNew.tsx";
 import defaultImage from "../../assets/images/default-image.jpg";
 import _ from "lodash";
 import "./advertisments.css";
@@ -31,25 +31,15 @@ export default function AdvertisementsList() {
         const url = `http://localhost:3000/advertisements/?_start=${
             (currentPage - 1) * pageSize
         }&_limit=${pageSize}&name_like=${str}`;
-        console.log(
-            `advertisements/?_start=${
-                (currentPage - 1) * pageSize
-            }&_limit=${pageSize}&name_like=${str}`
-        );
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const json = await response.json();
-            const newCount = Number(response.headers.get("X-Total-Count"));
-            setAdvertisments(json);
-            setLoading(false);
-            dispatch(setCount({ count: newCount }));
-        } catch (error) {
-            if (error instanceof Error) console.error(error.message);
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
         }
+        const json = await response.json();
+        const newCount = Number(response.headers.get("X-Total-Count"));
+        setAdvertisments(json);
+        setLoading(false);
+        dispatch(setCount({ count: newCount }));
     }
 
     useEffect(() => {

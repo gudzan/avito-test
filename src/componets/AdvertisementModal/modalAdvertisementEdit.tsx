@@ -1,53 +1,45 @@
-import { ChangeEvent, useState } from "react";
-import { Advertisment } from "../types/types";
-import { CustomModal } from "./CustomModal/customModal";
-import TextField from "./Form/textField";
-import TextAreaField from "./Form/textAreaField";
-import { v4 as uuidv4 } from "uuid";
-import moment from "moment";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Advertisment } from "../../types/types";
+import { CustomModal } from "../CustomModal/customModal";
+import TextField from "../Form/textField";
+import TextAreaField from "../Form/textAreaField";
 
 type ModalProps = {
+    advertisment: Advertisment;
     isOpen: boolean;
     onClose: Function;
-    onSubmit: Function;
 };
 
-export default function ModalAdvertisementNew({
+export default function ModalAdvertisementEdit({
+    advertisment,
     isOpen,
     onClose,
-    onSubmit,
 }: ModalProps) {
-    const now = moment().toJSON();
+    const [editAdvertisment, setEditAdvertisment] =
+        useState<Advertisment>(advertisment);
+    const [isChanged, setIsChanged] = useState(false);
 
-    const newAdvertisment: Advertisment = {
-        id: uuidv4(),
-        name: "",
-        price: 0,
-        createdAt: now,
-        views: 0,
-        likes: 0,
-    };
-
-    const [advertisment, setAdvertisment] =
-        useState<Advertisment>(newAdvertisment);
-
-    async function newData() {
-        const url = `http://localhost:3000/advertisements`;
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(advertisment),
-        };
-        try {
-            const response = await fetch(url, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const json = await response.json();
-            setAdvertisment(json);
-        } catch (error) {
-            if (error instanceof Error) console.error(error.message);
+    useEffect(() => {
+        if (JSON.stringify(editAdvertisment) !== JSON.stringify(advertisment)) {
+            setIsChanged(true);
+        } else {
+            setIsChanged(false);
         }
+    }, [editAdvertisment]);
+
+    async function editData() {
+        const url = `http://localhost:3000/advertisements/${advertisment.id}`;
+        const requestOptions = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(editAdvertisment),
+        };
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        setEditAdvertisment(json);
     }
 
     function handleChange(
@@ -59,7 +51,7 @@ export default function ModalAdvertisementNew({
             event.target.value === ""
                 ? event.target.value
                 : +event.target.value;
-        setAdvertisment((prevState) => ({
+        setEditAdvertisment((prevState) => ({
             ...prevState,
             [event.target.name]: value,
         }));
@@ -67,14 +59,16 @@ export default function ModalAdvertisementNew({
 
     function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
-        newData();
-        onSubmit(advertisment);
+        if (editAdvertisment !== advertisment) {
+            editData();
+        }
+        onClose(editAdvertisment);
     }
 
     return (
         <CustomModal isOpen={isOpen} onClose={onClose}>
             <>
-                <h3 className="mb-2">Создание нового товара</h3>
+                <h3 className="mb-2">Редактирование товара</h3>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <TextField
@@ -82,7 +76,7 @@ export default function ModalAdvertisementNew({
                             label="Название"
                             name="name"
                             type="text"
-                            value={advertisment.name}
+                            value={editAdvertisment.name}
                             onChange={handleChange}
                         />
                     </div>
@@ -92,11 +86,7 @@ export default function ModalAdvertisementNew({
                             label="Цена, руб."
                             name="price"
                             type="number"
-                            value={
-                                advertisment.price !== 0
-                                    ? advertisment.price
-                                    : ""
-                            }
+                            value={editAdvertisment.price}
                             onChange={handleChange}
                         />
                     </div>
@@ -106,7 +96,7 @@ export default function ModalAdvertisementNew({
                             label="Ссылка на изображение"
                             name="imageUrl"
                             type="text"
-                            value={advertisment.imageUrl}
+                            value={editAdvertisment.imageUrl}
                             onChange={handleChange}
                         />
                     </div>
@@ -115,7 +105,7 @@ export default function ModalAdvertisementNew({
                             required={false}
                             label="Описание"
                             name="description"
-                            value={advertisment.description}
+                            value={editAdvertisment.description}
                             onChange={handleChange}
                         />
                     </div>
@@ -123,6 +113,7 @@ export default function ModalAdvertisementNew({
                         <button
                             className="w-100 btn btn-primary"
                             type="submit"
+                            disabled={!isChanged}
                         >
                             Отправить
                         </button>

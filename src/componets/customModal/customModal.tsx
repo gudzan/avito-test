@@ -21,13 +21,14 @@ export const CustomModal = ({
             onRequestClose={() => onClose()}
             ariaHideApp={false}
         >
-            <button className="modal-close-button btn btn-outline-danger" onClick={() => onClose()}>
+            <button
+                className="modal-close-button btn btn-outline-danger"
+                onClick={() => onClose()}
+            >
                 <i className="bi bi-x-lg"></i>
             </button>
-            
+
             {children}
-
-
         </Modal>
     );
 };
