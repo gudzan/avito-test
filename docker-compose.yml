@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  client:
+    image: client-react
+    container_name: client-react
+    build: 
+      dockerfile: ./Dockerfile
+    ports: 
+     - "5137:80"
+  
+  json-server:
+    image: json-server
+    container_name: json-server
+    build: 
+      dockerfile: ./Dockerfile_JsonServer
+    ports: 
+     - "3000:8080"
