@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Advertisment } from "../../types/types";
 import Spinner from "../../componets/spinner";
-import ModalAdvertisementEdit from "../../componets/advertisementModal/modalAdvertisementEdit";
+import ModalAdvertisementEdit from "../../componets/modalAdvertisement/modalAdvertisementEdit";
 import defaultImage from "../../assets/images/default-image.jpg";
 import "./advertisments.css";
 
