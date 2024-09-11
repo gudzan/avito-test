@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Advertisment } from "../../types/types";
-import { CustomModal } from "../CustomModal/customModal";
-import TextField from "../Form/textField";
-import TextAreaField from "../Form/textAreaField";
+import { CustomModal } from "../customModal/customModal";
+import TextField from "../form/textField";
+import TextAreaField from "../form/textAreaField";
 
 type ModalProps = {
     advertisment: Advertisment;

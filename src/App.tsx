@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import AdvertisementsList from "./pages/Advertisments/advertisementsList";
-import AdvertisementPage from "./pages/Advertisments/advertisementPage";
-import Orders from "./pages/Orders/ordersList";
-import NavBar from "./componets/NavBar/navBar";
+import AdvertisementsList from "./pages/advertisments/advertisementsList";
+import AdvertisementPage from "./pages/advertisments/advertisementPage";
+import Orders from "./pages/orders/ordersList";
+import NavBar from "./componets/navBar/navBar";
 import "./App.css";
-import Header from "./componets/Header/header";
+import Header from "./componets/header/header";
 
 function App() {
     return (

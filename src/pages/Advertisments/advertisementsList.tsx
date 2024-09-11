@@ -10,7 +10,7 @@ import {
     setPageSize,
 } from "../../redux/paginationSlice.ts";
 import { useAppDispath, useAppSelector } from "../../redux/store.ts";
-import ModalAdvertisementNew from "../../componets/AdvertisementModal/modalAdvertisementNew.tsx";
+import ModalAdvertisementNew from "../../componets/advertisementModal/modalAdvertisementNew.tsx";
 import defaultImage from "../../assets/images/default-image.jpg";
 import _ from "lodash";
 import "./advertisments.css";

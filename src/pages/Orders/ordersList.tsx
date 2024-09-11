@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Order, OrderStatus } from "../../types/types";
-import OrderModal from "../../componets/OrdersModal/orderModal";
+import OrderModal from "../../componets/ordersModal/orderModal";
 import moment from "moment";
 import StatusFilter from "../../componets/statusFilter";
 import Spinner from "../../componets/spinner";
